@@ -1,4 +1,5 @@
 import sentry_sdk
+from discord import ClientException
 
 
 def use_sentry(client, **sentry_args):
@@ -13,4 +14,4 @@ def use_sentry(client, **sentry_args):
 
     @client.event
     async def on_error(event, *args, **kwargs):
-        sentry_sdk.capture_exception(event)
+        sentry_sdk.capture_exception(ClientException(event))
