@@ -14,4 +14,10 @@ def use_sentry(client, **sentry_args):
 
     @client.event
     async def on_error(event, *args, **kwargs):
-        sentry_sdk.capture_exception(ClientException(event))
+        """
+        Yes, this will throw a ValueError. THIS IS ON PURPOSE,
+        because otherwise, it just raises 'ExceptionName: coro'
+        (coro is the name of the coroutine the exception was
+        thrown on), and *doesn't give us an actual stacktrace*!
+        """
+        sentry_sdk.capture_exception(event)
